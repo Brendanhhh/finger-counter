@@ -35,58 +35,59 @@ def main() -> None:
     if not capture.isOpened():
         raise RuntimeError("Could not open webcam.")
 
-    with mp_hands.Hands(
-        static_image_mode=False,
-        max_num_hands=1,
-        min_detection_confidence=0.6,
-        min_tracking_confidence=0.6,
-    ) as hands:
-        while True:
-            ok, frame = capture.read()
-            if not ok:
-                break
+    try:
+        with mp_hands.Hands(
+            static_image_mode=False,
+            max_num_hands=1,
+            min_detection_confidence=0.6,
+            min_tracking_confidence=0.6,
+        ) as hands:
+            while True:
+                ok, frame = capture.read()
+                if not ok:
+                    break
 
-            frame = cv2.flip(frame, 1)
-            rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            results = hands.process(rgb)
+                frame = cv2.flip(frame, 1)
+                rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                results = hands.process(rgb)
 
-            finger_count = 0
-            label = "Unknown"
+                finger_count = 0
+                label = "Unknown"
 
-            if results.multi_hand_landmarks and results.multi_handedness:
-                hand_landmarks = results.multi_hand_landmarks[0]
-                label = results.multi_handedness[0].classification[0].label
-                finger_count = count_raised_fingers(hand_landmarks, label)
+                if results.multi_hand_landmarks and results.multi_handedness:
+                    hand_landmarks = results.multi_hand_landmarks[0]
+                    label = results.multi_handedness[0].classification[0].label
+                    finger_count = count_raised_fingers(hand_landmarks, label)
 
-                mp_drawing.draw_landmarks(
-                    frame, hand_landmarks, mp_hands.HAND_CONNECTIONS
+                    mp_drawing.draw_landmarks(
+                        frame, hand_landmarks, mp_hands.HAND_CONNECTIONS
+                    )
+
+                cv2.putText(
+                    frame,
+                    f"Hand: {label}",
+                    (20, 40),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.8,
+                    (0, 255, 0),
+                    2,
+                )
+                cv2.putText(
+                    frame,
+                    f"Fingers: {finger_count}",
+                    (20, 80),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    1,
+                    (0, 255, 0),
+                    2,
                 )
 
-            cv2.putText(
-                frame,
-                f"Hand: {label}",
-                (20, 40),
-                cv2.FONT_HERSHEY_SIMPLEX,
-                0.8,
-                (0, 255, 0),
-                2,
-            )
-            cv2.putText(
-                frame,
-                f"Fingers: {finger_count}",
-                (20, 80),
-                cv2.FONT_HERSHEY_SIMPLEX,
-                1,
-                (0, 255, 0),
-                2,
-            )
-
-            cv2.imshow("Finger Counter MVP", frame)
-            if cv2.waitKey(1) & 0xFF == ord("q"):
-                break
-
-    capture.release()
-    cv2.destroyAllWindows()
+                cv2.imshow("Finger Counter MVP", frame)
+                if cv2.waitKey(1) & 0xFF == ord("q"):
+                    break
+    finally:
+        capture.release()
+        cv2.destroyAllWindows()
 
 
 if __name__ == "__main__":

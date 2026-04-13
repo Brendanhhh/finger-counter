@@ -18,7 +18,7 @@ pip install -r requirements.txt
 ## Run
 
 ```bash
-python /home/runner/work/finger-counter/finger-counter/finger_counter.py
+python finger_counter.py
 ```
 
 Press `q` to quit.
