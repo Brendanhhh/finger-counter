@@ -10,6 +10,8 @@ import mediapipe as mp
 TIP_IDS = (4, 8, 12, 16, 20)
 BASE_JOINT_IDS = (3, 6, 10, 14, 18)
 CAMERA_INDEX = 0
+DETECTION_CONFIDENCE = 0.6
+TRACKING_CONFIDENCE = 0.6
 
 
 def count_raised_fingers(hand_landmarks, handedness: str) -> int:
@@ -41,8 +43,8 @@ def main() -> None:
         with mp_hands.Hands(
             static_image_mode=False,
             max_num_hands=1,
-            min_detection_confidence=0.6,
-            min_tracking_confidence=0.6,
+            min_detection_confidence=DETECTION_CONFIDENCE,
+            min_tracking_confidence=TRACKING_CONFIDENCE,
         ) as hands:
             while True:
                 ok, frame = capture.read()
