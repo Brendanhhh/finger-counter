@@ -8,7 +8,7 @@ import mediapipe as mp
 
 # MediaPipe hand landmark indices for fingertips and comparison joints.
 TIP_IDS = (4, 8, 12, 16, 20)
-PIP_IDS = (3, 6, 10, 14, 18)
+BASE_JOINT_IDS = (3, 6, 10, 14, 18)
 
 
 def count_raised_fingers(hand_landmarks, handedness: str) -> int:
@@ -16,13 +16,13 @@ def count_raised_fingers(hand_landmarks, handedness: str) -> int:
     raised = 0
 
     thumb_tip = landmarks[TIP_IDS[0]]
-    thumb_joint = landmarks[PIP_IDS[0]]
+    thumb_joint = landmarks[BASE_JOINT_IDS[0]]
     if handedness == "Right":
         raised += int(thumb_tip.x < thumb_joint.x)
     else:
         raised += int(thumb_tip.x > thumb_joint.x)
 
-    for tip_id, pip_id in zip(TIP_IDS[1:], PIP_IDS[1:]):
+    for tip_id, pip_id in zip(TIP_IDS[1:], BASE_JOINT_IDS[1:]):
         raised += int(landmarks[tip_id].y < landmarks[pip_id].y)
 
     return raised
