@@ -22,3 +22,5 @@ python finger_counter.py
 ```
 
 Press `q` to quit.
+
+If your camera is not detected, update `CAMERA_INDEX` in `finger_counter.py` to match your device.

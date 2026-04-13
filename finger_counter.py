@@ -6,9 +6,10 @@ import cv2
 import mediapipe as mp
 
 
-# MediaPipe hand landmark indices for fingertips and comparison joints.
+# MediaPipe tip indices: thumb=4, index=8, middle=12, ring=16, pinky=20.
 TIP_IDS = (4, 8, 12, 16, 20)
 BASE_JOINT_IDS = (3, 6, 10, 14, 18)
+CAMERA_INDEX = 0
 
 
 def count_raised_fingers(hand_landmarks, handedness: str) -> int:
@@ -22,8 +23,8 @@ def count_raised_fingers(hand_landmarks, handedness: str) -> int:
     else:
         raised += int(thumb_tip.x > thumb_joint.x)
 
-    for tip_id, pip_id in zip(TIP_IDS[1:], BASE_JOINT_IDS[1:]):
-        raised += int(landmarks[tip_id].y < landmarks[pip_id].y)
+    for tip_id, base_id in zip(TIP_IDS[1:], BASE_JOINT_IDS[1:]):
+        raised += int(landmarks[tip_id].y < landmarks[base_id].y)
 
     return raised
 
@@ -32,7 +33,7 @@ def main() -> None:
     mp_hands = mp.solutions.hands
     mp_drawing = mp.solutions.drawing_utils
 
-    capture = cv2.VideoCapture(0)
+    capture = cv2.VideoCapture(CAMERA_INDEX)
     if not capture.isOpened():
         raise RuntimeError("Could not open webcam.")
 
