@@ -2,30 +2,33 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 import cv2
 import mediapipe as mp
 
 
 # MediaPipe tip indices: thumb=4, index=8, middle=12, ring=16, pinky=20.
 TIP_IDS = (4, 8, 12, 16, 20)
-BASE_JOINT_IDS = (3, 6, 10, 14, 18)
+BASE_KNUCKLE_IDS = (3, 6, 10, 14, 18)
 CAMERA_INDEX = 0
 DETECTION_CONFIDENCE = 0.6
 TRACKING_CONFIDENCE = 0.6
 
 
-def count_raised_fingers(hand_landmarks, handedness: str) -> int:
+def count_raised_fingers(hand_landmarks: Any, handedness: str) -> int:
     landmarks = hand_landmarks.landmark
     raised = 0
 
     thumb_tip = landmarks[TIP_IDS[0]]
-    thumb_joint = landmarks[BASE_JOINT_IDS[0]]
+    thumb_joint = landmarks[BASE_KNUCKLE_IDS[0]]
     if handedness == "Right":
         raised += int(thumb_tip.x < thumb_joint.x)
     else:
         raised += int(thumb_tip.x > thumb_joint.x)
 
-    for tip_id, base_id in zip(TIP_IDS[1:], BASE_JOINT_IDS[1:]):
+    # Non-thumb fingers are raised when fingertip appears above its base knuckle.
+    for tip_id, base_id in zip(TIP_IDS[1:], BASE_KNUCKLE_IDS[1:]):
         raised += int(landmarks[tip_id].y < landmarks[base_id].y)
 
     return raised
