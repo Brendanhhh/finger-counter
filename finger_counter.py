@@ -6,6 +6,7 @@ import cv2
 import mediapipe as mp
 
 
+# MediaPipe hand landmark indices for fingertips and comparison joints.
 TIP_IDS = (4, 8, 12, 16, 20)
 PIP_IDS = (3, 6, 10, 14, 18)
 
@@ -52,12 +53,12 @@ def main() -> None:
                 results = hands.process(rgb)
 
                 finger_count = 0
-                label = "Unknown"
+                hand_label = "No hand detected"
 
                 if results.multi_hand_landmarks and results.multi_handedness:
                     hand_landmarks = results.multi_hand_landmarks[0]
-                    label = results.multi_handedness[0].classification[0].label
-                    finger_count = count_raised_fingers(hand_landmarks, label)
+                    hand_label = results.multi_handedness[0].classification[0].label
+                    finger_count = count_raised_fingers(hand_landmarks, hand_label)
 
                     mp_drawing.draw_landmarks(
                         frame, hand_landmarks, mp_hands.HAND_CONNECTIONS
@@ -65,7 +66,7 @@ def main() -> None:
 
                 cv2.putText(
                     frame,
-                    f"Hand: {label}",
+                    f"Hand: {hand_label}",
                     (20, 40),
                     cv2.FONT_HERSHEY_SIMPLEX,
                     0.8,
