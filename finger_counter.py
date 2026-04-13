@@ -8,6 +8,9 @@ from typing import List, Sequence, Tuple
 import cv2
 import numpy as np
 
+DEFECT_DEPTH_THRESHOLD = 1000
+PALM_RADIUS_SCALE = 0.45
+
 
 @dataclass(frozen=True)
 class FingerDetectionResult:
@@ -126,7 +129,7 @@ def detect_fingers(image: np.ndarray) -> FingerDetectionResult:
             cosine_angle = max(-1.0, min(1.0, float(cosine_angle)))
             angle = np.degrees(np.arccos(cosine_angle))
 
-            if angle < 85 and depth > 1000:
+            if angle < 85 and depth > DEFECT_DEPTH_THRESHOLD:
                 fingertip_candidates.extend([start, end])
 
     fingertip_candidates.extend(_contour_profile_fingertips(mask, contour, cy))
@@ -137,7 +140,7 @@ def detect_fingers(image: np.ndarray) -> FingerDetectionResult:
 
     unique_points = _dedupe_points(fingertip_candidates, min_distance=25)
     area = cv2.contourArea(contour)
-    palm_radius = max(1.0, np.sqrt(area / np.pi) * 0.45)
+    palm_radius = max(1.0, np.sqrt(area / np.pi) * PALM_RADIUS_SCALE)
     fingertip_points = []
     for x, y in unique_points:
         distance = float(np.hypot(x - cx, y - cy))
