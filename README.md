@@ -1,39 +1,79 @@
-# Finger Counter AI
+# Finger Counter
 
-A computer vision project utilizing Python and machine learning to detect and count extended fingers in real-time. This project was developed for academic purposes to demonstrate hand landmark localization and gesture interpretation.
+## 📌 Overview
+DigitDetect is a computer vision project designed to detect, bound, and count human fingers in images. Given an input image containing people, the model identifies visible fingers, draws bounding boxes around each one, and outputs a total count along with confidence scores for each detection. 
 
-## Overview
+## ✨ Features
+* **Finger Detection:** Accurately identifies individual fingers in diverse images.
+* **Bounding Boxes:** Draws clear, labeled bounding boxes around each detected finger.
+* **Confidence Scores:** Displays a model confidence percentage for every bounding box.
+* **Total Count:** Outputs the total number of fingers detected in the image.
+* **Batch Processing:** (Optional) Can process single images or iterate through a folder of images.
 
-This project leverages the **Mediapipe** framework and **OpenCV** to track hand movements via a webcam. By identifying specific coordinates (landmarks) on the hand, the algorithm determines the state of each finger (extended or folded) to provide an accurate count.
+## 🛠️ Tech Stack
+* **Language:** Python 3.x
+* **Computer Vision:** OpenCV, [MediaPipe / YOLOv8 / PyTorch / TensorFlow - Choose your model framework]
+* **Data Processing:** NumPy
 
-## Features
+## 🚀 Installation
 
-* **Real-Time Detection:** Low-latency processing for immediate feedback.
-* **Landmark Visualization:** Overlays hand skeletons and connection points on the video feed.
-* **Dual Hand Support:** Capable of recognizing and counting fingers on both left and right hands.
-* **Dynamic Display:** Shows the current count and FPS (Frames Per Second) directly on the output window.
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/](https://github.com/)[YourUsername]/[YourRepositoryName].git
+   cd [YourRepositoryName]
+   ```
 
-## Requirements
+2. **Create a virtual environment (Recommended):**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows use: venv\Scripts\activate
+   ```
 
-* Python 3.x
-* OpenCV (`opencv-python`)
-* Mediapipe
+3. **Install the required dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+   *(Make sure to include libraries like opencv-python, torch, ultralytics, etc. in your requirements.txt)*
 
-## Installation
+## 💻 Usage
+
+To run the finger counting model on a single image, use the following command:
 
 ```bash
-pip install opencv-python mediapipe
+python detect.py --source path/to/your/image.jpg
 ```
-# Responsible AI Usage
-This project adheres to the following principles of responsible and ethical AI development:
 
-Data Privacy: All image processing is performed locally on the host machine. No video data or biometric information is recorded, stored, or transmitted to external servers.
+**Arguments:**
+* `--source`: Path to the input image or directory containing images.
+* `--conf`: (Optional) Confidence threshold for detections (default is 0.5).
+* `--save`: (Optional) Flag to save the output image with bounding boxes drawn.
 
-Transparency & Attribution: This documentation and the project's structural framework were generated with the assistance of AI to ensure clarity and professional standards in academic reporting.
+**Example Output Console:**
+```text
+Processing image.jpg...
+Detected 8 fingers.
+Confidence Scores: [0.98, 0.95, 0.96, 0.89, 0.92, 0.94, 0.91, 0.88]
+Output saved to runs/detect/image_out.jpg
+```
 
-Bias Awareness: Users should be aware that performance may vary based on environmental factors such as lighting, background complexity, and varying hand shapes or skin tones. The underlying models are pre-trained, and limitations in the training data may impact accuracy in specific conditions.
+## 📂 Project Structure
+```text
+├── data/                   # Sample images for testing
+├── models/                 # Pre-trained weights and model architecture files
+├── src/                    # Source code for data processing and inference
+│   ├── detect.py           # Main inference script
+│   └── utils.py            # Helper functions for drawing boxes and counting
+├── requirements.txt        # Python dependencies
+└── README.md               # Project documentation
+```
 
-Safety & Limitations: This software is intended for educational and research purposes. It is not designed for—and should not be used in—critical safety systems, biometric authentication, or medical applications where high-stakes reliability is required.
+## 🚧 Challenges & Future Improvements
+* **Occlusion & Overlap:** Fingers are often hidden behind other objects or hands. Improving the model's accuracy on partially visible fingers.
+* **Real-time Video Support:** Extending the script to run live inference via a webcam feed.
+* **Hand Orientation:** Categorizing left vs. right hands alongside finger detection.
 
-License
-Distributed under the MIT License.
+## 🤝 Contributing
+Contributions, issues, and feature requests are welcome. Feel free to check the issues page.
+
+## 📄 License
+Distributed under the MIT License. See LICENSE for more information.
