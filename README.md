@@ -23,3 +23,17 @@ This project leverages the **Mediapipe** framework and **OpenCV** to track hand 
 
 ```bash
 pip install opencv-python mediapipe
+```
+# Responsible AI Usage
+This project adheres to the following principles of responsible and ethical AI development:
+
+Data Privacy: All image processing is performed locally on the host machine. No video data or biometric information is recorded, stored, or transmitted to external servers.
+
+Transparency & Attribution: This documentation and the project's structural framework were generated with the assistance of AI to ensure clarity and professional standards in academic reporting.
+
+Bias Awareness: Users should be aware that performance may vary based on environmental factors such as lighting, background complexity, and varying hand shapes or skin tones. The underlying models are pre-trained, and limitations in the training data may impact accuracy in specific conditions.
+
+Safety & Limitations: This software is intended for educational and research purposes. It is not designed for—and should not be used in—critical safety systems, biometric authentication, or medical applications where high-stakes reliability is required.
+
+License
+Distributed under the MIT License.
