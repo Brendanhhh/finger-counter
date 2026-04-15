@@ -12,7 +12,7 @@ DigitDetect is a computer vision project designed to detect, bound, and count hu
 
 ## 🛠️ Tech Stack
 * **Language:** Python 3.x
-* **Computer Vision:** OpenCV, [MediaPipe / YOLOv8 / PyTorch / TensorFlow - Choose your model framework]
+* **Computer Vision:** OpenCV, MediaPipe Hands
 * **Data Processing:** NumPy
 
 ## 🚀 Installation
@@ -33,14 +33,14 @@ DigitDetect is a computer vision project designed to detect, bound, and count hu
    ```bash
    pip install -r requirements.txt
    ```
-   *(Make sure to include libraries like opencv-python, torch, ultralytics, etc. in your requirements.txt)*
+   *(This project currently uses `opencv-python`, `mediapipe`, and `numpy`.)*
 
 ## 💻 Usage
 
 To run the finger counting model on a single image, use the following command:
 
 ```bash
-python detect.py --source path/to/your/image.jpg
+python src/detect.py --source path/to/your/image.jpg
 ```
 
 **Arguments:**
