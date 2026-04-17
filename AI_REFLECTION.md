@@ -1,0 +1,1 @@
+When using AI to plan a project I think it is important to first spend some time planning and trying to criticize the plan. My mistake here is that I assumed it would be easy to create a model that counts fingers, while in essence that is easy it needs labaleled training data to work on, and this is out of scope for the amount of time I have.
